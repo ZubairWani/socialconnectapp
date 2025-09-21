@@ -1,0 +1,127 @@
+/
+├── .env.local                  # Environment variables (Supabase URL, keys, JWT secret)
+├── .eslintrc.json              # ESLint configuration
+├── .gitignore                  # Git ignore file
+├── next.config.mjs             # Next.js configuration
+├── package.json                # Project dependencies and scripts
+├── postcss.config.js           # PostCSS configuration (for Tailwind CSS)
+├── tailwind.config.ts          # Tailwind CSS configuration
+├── tsconfig.json               # TypeScript configuration
+├── prisma/                      # Prisma ORM setup for database management
+│   └── schema.prisma           # Prisma schema for defining database models (User, Post, Comment, etc.)
+└── src/                        # Main source code directory
+    ├── app/                    # Next.js App Router
+    │   ├── (auth)/             # Route group for authentication pages
+    │   │   ├── login/
+    │   │   │   └── page.tsx      # Login page component
+    │   │   ├── register/
+    │   │   │   └── page.tsx      # Registration page component
+    │   │   ├── password-reset/
+    │   │   │   └── page.tsx      # Password reset request page
+    │   │   └── layout.tsx        # Shared layout for auth pages
+    │   ├── (root)/             # Route group for main application (authenticated users)
+    │   │   ├── feed/
+    │   │   │   └── page.tsx      # The main personalized feed page (homepage for logged-in users)
+    │   │   ├── notifications/
+    │   │   │   └── page.tsx      # Page to display user notifications
+    │   │   ├── post/
+    │   │   │   └── [postId]/
+    │   │   │       └── page.tsx  # Page for viewing a single post and its comments
+    │   │   ├── profile/
+    │   │   │   ├── me/
+    │   │   │   │   └── page.tsx  # Page for the logged-in user to view/edit their own profile
+    │   │   │   └── [userId]/
+    │   │   │       └── page.tsx  # Page for viewing another user's public profile
+    │   │   └── layout.tsx        # Main application layout (with navbar, sidebar, etc.)
+    │   ├── admin/                # Route group for admin-only pages
+    │   │   ├── users/
+    │   │   │   └── page.tsx      # Admin page for user management
+    │   │   ├── posts/
+    │   │   │   └── page.tsx      # Admin page for content management
+    │   │   ├── page.tsx          # Main admin dashboard/stats page
+    │   │   └── layout.tsx        # Layout for the admin section
+    │   ├── api/                  # Backend API endpoints
+    │   │   ├── auth/
+    │   │   │   ├── register/
+    │   │   │   │   └── route.ts  # POST /api/auth/register
+    │   │   │   ├── login/
+    │   │   │   │   └── route.ts  # POST /api/auth/login
+    │   │   │   ├── logout/
+    │   │   │   │   └── route.ts  # POST /api/auth/logout
+    │   │   │   ├── password-reset/
+    │   │   │   │   └── route.ts  # POST /api/auth/password-reset
+    │   │   │   ├── password-reset-confirm/
+    │   │   │   │   └── route.ts  # POST /api/auth/password-reset-confirm
+    │   │   │   └── token/
+    │   │   │       └── refresh/
+    │   │   │           └── route.ts # POST /api/auth/token/refresh
+    │   │   ├── users/
+    │   │   │   ├── me/
+    │   │   │   │   └── route.ts  # GET, PUT, PATCH /api/users/me (own profile)
+    │   │   │   └── [userId]/
+    │   │   │       ├── follow/
+    │   │   │       │   └── route.ts # POST, DELETE /api/users/{userId}/follow
+    │   │   │       ├── followers/
+    │   │   │       │   └── route.ts # GET /api/users/{userId}/followers
+    │   │   │       ├── following/
+    │   │   │       │   └── route.ts # GET /api/users/{userId}/following
+    │   │   │       └── route.ts    # GET /api/users/{userId} (public profile)
+    │   │   ├── posts/
+    │   │   │   ├── [postId]/
+    │   │   │   │   ├── comments/
+    │   │   │   │   │   └── route.ts # GET, POST /api/posts/{postId}/comments
+    │   │   │   │   ├── like/
+    │   │   │   │   │   └── route.ts # POST, DELETE /api/posts/{postId}/like
+    │   │   │   │   └── route.ts    # GET, PUT, PATCH, DELETE /api/posts/{postId}
+    │   │   │   └── route.ts        # GET, POST /api/posts
+    │   │   ├── comments/
+    │   │   │   └── [commentId]/
+    │   │   │       └── route.ts    # DELETE /api/comments/{commentId}
+    │   │   ├── feed/
+    │   │   │   └── route.ts        # GET /api/feed
+    │   │   ├── notifications/
+    │   │   │   ├── [notificationId]/
+    │   │   │   │   └── read/
+    │   │   │   │       └── route.ts # POST /api/notifications/{notificationId}/read
+    │   │   │   ├── mark-all-read/
+    │   │   │   │   └── route.ts    # POST /api/notifications/mark-all-read
+    │   │   │   └── route.ts        # GET /api/notifications
+    │   │   └── admin/
+    │   │       ├── users/
+    │   │       │   ├── [userId]/
+    │   │       │   │   ├── deactivate/
+    │   │       │   │   │   └── route.ts # POST /api/admin/users/{userId}/deactivate
+    │   │       │   │   └── route.ts    # GET /api/admin/users/{userId}
+    │   │       │   └── route.ts        # GET /api/admin/users
+    │   │       ├── posts/
+    │   │       │   ├── [postId]/
+    │   │       │   │   └── route.ts    # DELETE /api/admin/posts/{postId}
+    │   │       │   └── route.ts        # GET /api/admin/posts
+    │   │       └── stats/
+    │   │           └── route.ts      # GET /api/admin/stats
+    │   ├── favicon.ico
+    │   ├── globals.css           # Global CSS styles
+    │   └── layout.tsx            # Root layout component
+    ├── components/             # Reusable React components
+    │   ├── auth/                 # Components specific to authentication (LoginForm, RegisterForm)
+    │   ├── feed/                 # Components for the feed (FeedList, PostCard)
+    │   ├── notifications/        # Notification components (NotificationBell, NotificationItem)
+    │   ├── post/                 # Post-related components (CreatePostForm, CommentSection)
+    │   ├── profile/              # Profile-related components (ProfileHeader, EditProfileModal)
+    │   ├── shared/               # Components used across multiple features
+    │   └── ui/                   # Generic UI components from shadcn/ui (Button, Input, Card, etc.)
+    ├── hooks/                    # Custom React hooks
+    │   ├── use-user.ts           # Hook to get current authenticated user data
+    │   ├── use-notifications.ts  # Hook for managing real-time notifications
+    │   └── use-api.ts            # Optional: a generic hook for making API requests
+    ├── lib/                      # Core logic, helpers, and utilities
+    │   ├── auth.ts               # Authentication helpers (JWT signing/verification, password hashing)
+    │   ├── prisma.ts             # Prisma client instance
+    │   ├── supabase.ts           # Supabase client instances (JS client, Admin client, Storage)
+    │   ├── validators.ts         # Zod schemas for API input validation
+    │   └── utils.ts              # General utility functions (e.g., date formatting)
+    ├── middleware.ts             # Next.js middleware for protecting routes
+    └── types/                    # TypeScript type definitions
+        └── index.ts              # Main types file (User, Post, Comment, Notification, etc.)
+        
+        

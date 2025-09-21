@@ -1,0 +1,197 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// 1. Defines the database connection.
+// It automatically reads the DATABASE_URL from your .env.local file.
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// 2. Specifies that Prisma should generate the JavaScript client.
+generator client {
+  provider = "prisma-client-js"
+}
+
+// --------------------------------------------------
+//               APPLICATION MODELS
+// --------------------------------------------------
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  username  String   @unique
+  password  String
+  firstName String
+  lastName  String
+  role      Role     @default(User)
+
+  // Profile Fields
+  bio       String?  @db.VarChar(160)
+  avatarUrl String?
+  website   String?
+  location  String?
+  visibility ProfileVisibility @default(Public)
+
+  // Status & Timestamps
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  lastLogin      DateTime?
+  emailVerified  DateTime?
+  isActive       Boolean   @default(true)
+
+  // Password Reset
+  passwordResetToken   String?   @unique
+  passwordResetExpires DateTime?
+
+  // --- RELATIONSHIPS & COUNTS ---
+
+  // User's Content
+  posts    Post[]
+  comments Comment[]
+  likes    Like[]
+
+  // Social Graph
+  // Users who are following this user
+  followers Follow[] @relation("Following")
+  // Users whom this user is following
+  following Follow[] @relation("Follower")
+
+  // Notifications
+  // Notifications this user has sent
+  notificationsSent     Notification[] @relation("Sender")
+  // Notifications this user has received
+  notificationsReceived Notification[] @relation("Recipient")
+
+  // For Prisma to handle count caching efficiently (Optional but good practice)
+  followersCount Int @default(0)
+  followingCount Int @default(0)
+  postsCount     Int @default(0)
+}
+
+model Post {
+  id      String   @id @default(cuid())
+  content String   @db.VarChar(280)
+  imageUrl String?
+  category PostCategory @default(General)
+
+  // Status & Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  isActive  Boolean  @default(true)
+
+  // --- RELATIONSHIPS & COUNTS ---
+
+  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId String
+
+  // Content Interactions
+  comments Comment[]
+  likes    Like[]
+  notifications Notification[]
+
+  // Denormalized counts for quick lookups
+  likeCount    Int @default(0)
+  commentCount Int @default(0)
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  content   String   @db.VarChar(200)
+  createdAt DateTime @default(now())
+  isActive  Boolean  @default(true)
+
+  // --- RELATIONSHIPS ---
+
+  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId String
+
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId String
+}
+
+// A join table for the many-to-many relationship between Users and Posts
+model Like {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  // --- RELATIONSHIPS ---
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId String
+
+  // A user can only like a post once
+  @@unique([userId, postId])
+}
+
+// A self-referencing join table for the many-to-many "follow" relationship on User
+model Follow {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  // --- RELATIONSHIPS ---
+
+  // The user who is initiating the follow
+  follower   User   @relation("Follower", fields: [followerId], references: [id], onDelete: Cascade)
+  followerId String
+
+  // The user who is being followed
+  following   User   @relation("Following", fields: [followingId], references: [id], onDelete: Cascade)
+  followingId String
+
+  // A user can only follow another user once
+  @@unique([followerId, followingId])
+}
+
+
+model Notification {
+  id      String   @id @default(cuid())
+  type    NotificationType
+  isRead  Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  // --- RELATIONSHIPS ---
+
+  // The user who receives the notification
+  recipient   User   @relation("Recipient", fields: [recipientId], references: [id], onDelete: Cascade)
+  recipientId String
+
+  // The user who triggered the notification (e.g., liked the post)
+  sender   User   @relation("Sender", fields: [senderId], references: [id], onDelete: Cascade)
+  senderId String
+
+  // The post related to the notification (optional, e.g., for follow notifications)
+  post   Post?   @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId String?
+}
+
+
+// --------------------------------------------------
+//                    ENUMERATIONS
+// --------------------------------------------------
+
+enum Role {
+  User
+  Admin
+}
+
+enum ProfileVisibility {
+  Public
+  Private
+  FollowersOnly
+}
+
+enum PostCategory {
+  General
+  Announcement
+  Question
+}
+
+enum NotificationType {
+  Follow
+  Like
+  Comment
+}
