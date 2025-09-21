@@ -119,7 +119,6 @@ export async function DELETE(request: NextRequest, { params }: { params: { postI
       return NextResponse.json({ message: 'Forbidden' }, { status: 403 });
     }
 
-    // Instead of deleting, we can soft-delete by setting isActive to false
     await prisma.post.update({
       where: { id: postId },
       data: { isActive: false },

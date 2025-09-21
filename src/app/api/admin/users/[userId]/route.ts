@@ -42,7 +42,7 @@ export async function PATCH(req: NextRequest, { params }: RouteContext) {
         const updatedUser = await prisma.user.update({
             where: { id: userId },
             data: { isActive: validation.data.isActive },
-            select: { id: true, isActive: true }, // Return only what's necessary
+            select: { id: true, isActive: true }, 
         });
 
         return NextResponse.json(updatedUser);

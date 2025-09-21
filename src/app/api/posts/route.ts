@@ -1,10 +1,8 @@
 import { NextResponse, NextRequest } from 'next/server';
-// 1. IMPORT the correct authentication helper
 import { getAuthPayloadFromCookie } from '@/lib/auth';
 import prisma from '@/lib/prisma';
 import { postSchema } from '@/lib/validators';
 
-// 2. ADD this line to force the Node.js runtime, which is required for cookies.
 export const dynamic = 'force-dynamic';
 
 /**
@@ -50,10 +48,8 @@ export async function GET(request: NextRequest) {
  */
 export async function POST(request: NextRequest) {
   try {
-    // 3. USE the correct helper that reads from cookies.
     const authPayload =await getAuthPayloadFromCookie();
     if (!authPayload) {
-      // This is what is causing the 401 Unauthorized error.
       return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
     }
 
@@ -64,14 +60,13 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ message: 'Invalid input.', errors: validation.error.errors }, { status: 400 });
     }
 
-    // The validation object contains `image_url` but the Prisma schema expects `imageUrl`
     const { content, category, imageUrl } = body; 
 
     const newPost = await prisma.post.create({
       data: {
         content,
         category,
-        imageUrl: imageUrl, // Ensure the field name matches your Prisma schema
+        imageUrl: imageUrl, 
         authorId: authPayload.userId,
       },
       include: {
@@ -92,7 +87,6 @@ export async function POST(request: NextRequest) {
         data: { postsCount: { increment: 1 }}
     });
     
-    // 4. FORMAT the response to match the frontend's Post type
     const { author, ...restOfPost } = newPost;
     const postToReturn = {
       ...restOfPost,

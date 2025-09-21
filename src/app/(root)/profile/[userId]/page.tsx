@@ -1,5 +1,3 @@
-
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -7,10 +5,9 @@ import { useParams } from "next/navigation";
 import { ProfileHeader } from "@/components/profile/ProfileHeader";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Spinner } from "@/components/shared/Spinner";
-import { useUser } from "@/hooks/use-user"; // To check if it's our own profile
+import { useUser } from "@/hooks/use-user"; 
 import { FeedList } from "@/components/feed/FeedList";
 
-// Use the correct user type for the profile header
 type ProfileUser = React.ComponentProps<typeof ProfileHeader>['user'];
 
 export default function UserProfilePage() {
@@ -20,7 +17,7 @@ export default function UserProfilePage() {
 
   const params = useParams();
   const userId = params.userId as string;
-  const { user: currentUser } = useUser(); // Get the currently logged-in user
+  const { user: currentUser } = useUser();
 
   useEffect(() => {
     if (!userId) return;
@@ -30,7 +27,7 @@ export default function UserProfilePage() {
         setIsLoading(true);
         setIsError(false);
 
-        // Make a single API call that gets all the data we need
+       
         const response = await fetch(`/api/users/${userId}`);
 
         if (!response.ok) {
@@ -39,12 +36,12 @@ export default function UserProfilePage() {
 
         const userData = await response.json();
         console.log("ud: ", userData)
-        // Correctly format the user data based on the API response
+        
         const formattedUser = {
           ...userData,
           name: `${userData.firstName} ${userData.lastName}`,
           joined: new Date(userData.createdAt).toLocaleString('en-US', { month: 'long', year: 'numeric' }),
-          // Access the counts directly from the userData object
+       
           followersCount: userData.followers.length,
           followingCount: userData.following.length,
         };
@@ -70,7 +67,6 @@ export default function UserProfilePage() {
     return <p className="text-center text-destructive p-8">This profile could not be loaded or does not exist.</p>;
   }
 
-  // Determine if the viewed profile belongs to the logged-in user
   const isOwnProfile = currentUser?.id === user.id;
 
  console.log(user.posts)  
@@ -80,7 +76,6 @@ export default function UserProfilePage() {
       <ProfileHeader
         user={user}
         isOwnProfile={isOwnProfile}
-        // The `isFollowing` status comes directly from the fetched user object
         isFollowing={user.isFollowing}
       />
 
@@ -90,12 +85,9 @@ export default function UserProfilePage() {
           <TabsTrigger value="replies" className="flex-1">Replies</TabsTrigger>
         </TabsList>
         <TabsContent value="posts">
-                 {/* THE DYNAMIC PART: We now render the FeedList instead of static text */}
+                 
                  <FeedList
                    posts={user.posts}
-                  //  isLoading={isLoadingPosts}
-                  //  isError={isErrorPosts}
-                  //  onPostDeleted={handlePostDeleted}
                    currentUserId={user.id}
                  />
                </TabsContent>

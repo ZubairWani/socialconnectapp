@@ -7,9 +7,6 @@ import { Heart, MessageCircle, UserPlus } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { Notification } from "@/types";
 
-/**
- * A helper component to render the correct icon for each notification type.
- */
 const NotificationIcon = ({ type }: { type: Notification['type'] }) => {
   switch (type) {
     case 'Like':
@@ -23,9 +20,6 @@ const NotificationIcon = ({ type }: { type: Notification['type'] }) => {
   }
 };
 
-/**
- * A helper component to render a single, actionable notification item.
- */
 function NotificationItem({ notification }: { notification: Notification }) {
   let message = '';
   let href = '#';
@@ -67,9 +61,6 @@ function NotificationItem({ notification }: { notification: Notification }) {
   );
 }
 
-/**
- * The main page for displaying all user notifications.
- */
 export default function NotificationsPage() {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [isLoading, setIsLoading] = useState(true);

@@ -39,16 +39,11 @@ export async function POST(request: Request) {
         firstName: first_name,
         lastName: last_name,
         password: hashedPassword,
-        // In a real app, you'd set emailVerified to false and send a verification email
-        emailVerified: new Date(), // Simulating immediate verification for simplicity
+        emailVerified: new Date(),
       },
     });
     
-    // For security, don't return the password in the response
     const { password: _, ...userWithoutPassword } = user;
-
-
-    // TODO: Implement email verification logic (e.g., using Supabase Auth or a service like SendGrid)
 
     return NextResponse.json(userWithoutPassword, { status: 201 });
   } catch (error) {

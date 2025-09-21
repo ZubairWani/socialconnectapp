@@ -86,7 +86,7 @@ import { useUser } from '@/hooks/use-user';
 interface FollowButtonProps {
   userIdToFollow: string;
   initialIsFollowing: boolean;
-  onFollowStateChange?: () => void; // Optional callback
+  onFollowStateChange?: () => void; 
 }
 
 export function FollowButton({ userIdToFollow, initialIsFollowing, onFollowStateChange }: FollowButtonProps) {

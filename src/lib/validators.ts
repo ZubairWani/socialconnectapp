@@ -42,7 +42,6 @@ export const postSchema = z.object({
     .min(1, { message: "Post content cannot be empty." })
     .max(280, { message: "Post cannot exceed 280 characters." }),
   category: z.enum(['general', 'announcement', 'question']).default('general'),
-  // image_url is handled separately during upload, not part of this form schema
 });
 
 export const commentSchema = z.object({

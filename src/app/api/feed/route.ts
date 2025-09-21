@@ -2,7 +2,6 @@ import { NextResponse, NextRequest } from 'next/server';
 import { getAuthPayloadFromCookie } from '@/lib/auth';
 import prisma from '@/lib/prisma';
 
-// 1. ADD THIS LINE to ensure the route runs in the Node.js runtime.
 export const dynamic = 'force-dynamic';
 
 /**
@@ -34,7 +33,6 @@ export async function GET(request: NextRequest) {
     const authorIdsForFeed = [...followedUserIds, userId];
 
     const posts = await prisma.post.findMany({
-      // 2. THE FIX IS HERE: The extra curly brace after `isActive: true,` has been removed.
       where: {
         authorId: { in: authorIdsForFeed },
         isActive: true,

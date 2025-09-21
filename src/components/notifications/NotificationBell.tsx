@@ -11,7 +11,7 @@ import {
 import { NotificationList } from "./NotificationList";
 import { useState, useEffect } from "react";
 import { Skeleton } from "../ui/skeleton";
-import type { Notification } from "@/types"; // Import your central Notification type
+import type { Notification } from "@/types"; 
 
 export function NotificationBell() {
   const [notifications, setNotifications] = useState<Notification[]>([]);
@@ -38,23 +38,20 @@ export function NotificationBell() {
 
     fetchNotifications();
 
-    // Real-time updates would go here (e.g., via WebSockets or Supabase Realtime)
   }, []);
 
   const handleOpenChange = async (open: boolean) => {
-    // When the menu is opened and there are unread notifications
+   
     if (open && unreadCount > 0) {
-      // Optimistically update the UI
+      
       setUnreadCount(0);
-
-      // Send request to the backend to mark all as read
       try {
         await fetch('/api/notifications', { method: 'PATCH' });
-        // Optionally refetch or update notification `isRead` state locally
+       
         setNotifications(prev => prev.map(n => ({ ...n, isRead: true })));
       } catch (error) {
         console.error("Failed to mark notifications as read:", error);
-        // In a real app, you might revert the optimistic update here
+       
       }
     }
   };

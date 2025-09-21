@@ -1,22 +1,11 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
-/**
- * A utility function to merge Tailwind CSS classes.
- * It handles conditional classes and resolves conflicting styles.
- * @param inputs The class values to merge.
- * @returns A string of merged class names.
- */
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-/**
- * Formats a date into a relative time string (e.g., "5m ago", "2h ago")
- * or a simple date string if it's older than a week.
- * @param date The date to format (can be a Date object or a string).
- * @returns A formatted date string.
- */
 export function formatRelativeDate(date: Date | string): string {
   const d = typeof date === 'string' ? new Date(date) : date;
   const now = new Date();

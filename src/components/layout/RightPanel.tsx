@@ -9,9 +9,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
-import { FollowButton } from "@/components/profile/FollowButton"; // Import the new component
+import { FollowButton } from "@/components/profile/FollowButton"; 
 
-// Define a type for the user suggestions
 type SuggestedUser = {
   id: string;
   firstName: string;
@@ -20,9 +19,6 @@ type SuggestedUser = {
   avatarUrl: string | null;
 };
 
-/**
- * Renders a skeleton placeholder for the suggestion list while loading.
- */
 function SuggestionSkeleton() {
   return (
     <div className="space-y-4">
@@ -42,11 +38,6 @@ function SuggestionSkeleton() {
   );
 }
 
-/**
- * The right-hand panel for the main application layout.
- *
- * Contains a search bar and a dynamically fetched "Who to follow" suggestion card.
- */
 function RightPanel() {
   const [suggestions, setSuggestions] = useState<SuggestedUser[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -62,7 +53,7 @@ function RightPanel() {
       setSuggestions(data);
     } catch (error) {
       console.error(error);
-      setSuggestions([]); // Clear suggestions on error
+      setSuggestions([]); 
     } finally {
       setIsLoading(false);
     }
@@ -75,9 +66,7 @@ function RightPanel() {
   // When a user is followed, remove them from the list and fetch a new set
   const handleFollowSuccess = (followedUserId: string) => {
     setSuggestions(prev => prev.filter(user => user.id !== followedUserId));
-    // Optional: You could fetch one new user to replace the one just followed
-    // for a more dynamic feel, or just refetch the whole list.
-    // fetchSuggestions();
+  
   };
 
   return (

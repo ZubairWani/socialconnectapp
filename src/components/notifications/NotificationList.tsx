@@ -3,32 +3,30 @@ import { formatDistanceToNow } from "date-fns";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Heart, UserPlus, MessageSquare } from "lucide-react";
-import type { Notification } from "@/types"; // Import the central, correct Notification type
+import type { Notification } from "@/types"; 
 
-// Represents a single notification item, now fully dynamic and actionable.
 function NotificationItem({ notification }: { notification: Notification }) {
 
-    // 1. Determine the correct icon and link based on the notification type
     let icon, message, href;
 
     switch (notification.type) {
         case 'Like':
             icon = <Heart className="h-5 w-5 text-red-500" />;
             message = 'liked your post.';
-            href = `/post/${notification.postId}`; // Link to the specific post
+            href = `/post/${notification.postId}`; 
             break;
         case 'Follow':
             icon = <UserPlus className="h-5 w-5 text-blue-500" />;
             message = 'started following you.';
-            href = `/profile/${notification.sender.username}`; // Link to the follower's profile
+            href = `/profile/${notification.sender.username}`; 
             break;
         case 'Comment':
-            icon = <MessageSquare className="h-5 w-5 text-green-500" />; // Correct icon for comments
+            icon = <MessageSquare className="h-5 w-5 text-green-500" />; 
             message = 'commented on your post.';
-            href = `/post/${notification.postId}`; // Link to the specific post
+            href = `/post/${notification.postId}`;
             break;
         default:
-            return null; // Handle unknown notification types gracefully
+            return null; 
     }
 
     return (
@@ -50,7 +48,6 @@ function NotificationItem({ notification }: { notification: Notification }) {
     );
 }
 
-// The main list component, now simplified and using the correct data structure.
 export function NotificationList({ notifications }: { notifications: Notification[] }) {
     if (notifications.length === 0) {
         return <p className="p-4 text-center text-sm text-muted-foreground">No new notifications.</p>;
@@ -60,7 +57,6 @@ export function NotificationList({ notifications }: { notifications: Notificatio
         <div>
             <div className="flex justify-between items-center p-3 border-b">
                 <h3 className="font-semibold">Notifications</h3>
-                {/* The "Mark all as read" button is removed because this action is handled by the parent NotificationBell on open. */}
             </div>
             <div className="max-h-96 overflow-y-auto">
                 {notifications.map(n => <NotificationItem key={n.id} notification={n} />)}

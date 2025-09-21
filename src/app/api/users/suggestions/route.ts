@@ -2,15 +2,7 @@ import { NextResponse } from 'next/server';
 import { getAuthPayloadFromCookie } from '@/lib/auth';
 import prisma from '@/lib/prisma';
 
-/**
- * GET /api/users/suggestions
- * Fetches a list of users for the "Who to follow" panel.
- *
- * Logic:
- * 1. Identifies the current user.
- * 2. Finds all users the current user is already following.
- * 3. Returns a list of users that are NOT the current user and are NOT being followed.
- */
+
 export async function GET() {
     try {
         const authPayload = await getAuthPayloadFromCookie();

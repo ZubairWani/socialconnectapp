@@ -11,7 +11,6 @@ const nunito = Nunito({
   weight: ["300", "400", "500", "600", "700", "800"],
 });
 
-// Define metadata for SEO
 export const metadata: Metadata = {
   title: {
     default: "SocialConnect - Connect & Share",
@@ -92,12 +91,12 @@ export const metadata: Metadata = {
     },
   },
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#1D4ED8" }, // blue for light mode
-    { media: "(prefers-color-scheme: dark)", color: "#0A192F" }, // dark navy for dark mode
+    { media: "(prefers-color-scheme: light)", color: "#1D4ED8" }, 
+    { media: "(prefers-color-scheme: dark)", color: "#0A192F" }, 
   ],
   verification: {
-    google: "your-google-site-verification-code", // Replace with actual code
-    yandex: "your-yandex-verification-code", // Replace with actual code
+    google: "your-google-site-verification-code", 
+    yandex: "your-yandex-verification-code",
   },
   appleWebApp: {
     title: "SocialConnect",

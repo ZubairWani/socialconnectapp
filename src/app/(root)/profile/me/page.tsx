@@ -3,23 +3,21 @@
 import { useState, useEffect } from "react";
 import { ProfileHeader, ProfileUser } from "@/components/profile/ProfileHeader";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Spinner } from "@/components/shared/Spinner";
 import { useUser } from "@/hooks/use-user";
-import { Post } from "@/types"; // Import the Post type
-import { FeedList } from "@/components/feed/FeedList"; // Import the FeedList component
+import { Post } from "@/types"; 
+import { FeedList } from "@/components/feed/FeedList"; 
 import Loader from "@/components/Global/Loader";
 
 export default function MyProfilePage() {
   const { user, isLoading: isUserLoading, isError: isUserError } = useUser();
   
-  // Create new state specifically for the user's posts
+  
   const [posts, setPosts] = useState<Post[]>([]);
   const [isLoadingPosts, setIsLoadingPosts] = useState(true);
   const [isErrorPosts, setIsErrorPosts] = useState(false);
 
-  // This effect will run to fetch the user's posts *after* the user data is loaded.
   useEffect(() => {
-    // Only fetch posts if we have a user
+   
     if (user) {
       const fetchUserPosts = async () => {
         try {
@@ -41,7 +39,7 @@ export default function MyProfilePage() {
 
       fetchUserPosts();
     }
-  }, [user]); // The dependency array ensures this runs whenever the `user` object changes
+  }, [user]); 
 
   const handlePostDeleted = (deletedPostId: string) => {
     setPosts(prevPosts => prevPosts.filter(post => post.id !== deletedPostId));
@@ -75,7 +73,6 @@ export default function MyProfilePage() {
           <TabsTrigger value="likes" className="flex-1">Likes</TabsTrigger>
         </TabsList>
         <TabsContent value="posts">
-          {/* THE DYNAMIC PART: We now render the FeedList instead of static text */}
           <FeedList
             posts={posts}
             isLoading={isLoadingPosts}

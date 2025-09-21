@@ -37,9 +37,8 @@ export function CreatePostForm({ onPostCreated }: Props) {
 
     if (!response.ok) throw new Error("Failed to create post.");
 
-    const newPost = await response.json(); // backend should return the created post
+    const newPost = await response.json(); 
 
-    // ✅ Inform parent (FeedPage) about the new post
     onPostCreated(newPost);
 
     // Reset form
@@ -70,7 +69,6 @@ export function CreatePostForm({ onPostCreated }: Props) {
                         rows={3}
                     />
                     
-                    {/* INTEGRATION POINT: The ImageUpload component is added here */}
                     <ImageUpload preview={preview} setPreview={setPreview} bucket="posts"  onUploadComplete={handleUploadComplete} />
 
                     <div className="flex justify-end">

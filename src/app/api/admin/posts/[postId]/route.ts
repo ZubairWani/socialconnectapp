@@ -8,11 +8,6 @@ interface RouteContext {
     params: { postId: string };
 }
 
-/**
- * DELETE /api/admin/posts/[postId]
- * Deletes a post by its ID.
- * Protected route: Requires Admin role.
- */
 export async function DELETE(req: NextRequest, { params }: RouteContext) {
     try {
         const authPayload = await getAuthPayloadFromCookie();

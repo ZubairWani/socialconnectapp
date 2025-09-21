@@ -43,7 +43,6 @@ export function ProfileHeader({ user, isOwnProfile, isFollowing = false }: Profi
                     {isOwnProfile ? (
                         <EditProfileModal user={user} />
                     ) : (
-                        // API INTEGRATION: This button now receives real, fetched data
                         <FollowButton userIdToFollow={user.id} initialIsFollowing={isFollowing} />
                     )}
                 </div>

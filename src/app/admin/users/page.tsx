@@ -11,8 +11,6 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { ConfirmationDialog } from "@/components/shared/ConfirmationDialog";
 import { Skeleton } from "@/components/ui/skeleton";
-
-// Define the shape of the user object fetched from our API
 type User = {
   id: string;
   name: string;
@@ -59,7 +57,6 @@ export default function AdminUsersPage() {
         throw new Error(errorData.message || `Failed to ${actionText} user.`);
       }
 
-      // Update the UI optimistically
       setUsers(prevUsers =>
         prevUsers.map(u => u.id === user.id ? { ...u, status: newStatus ? 'Active' : 'Deactivated' } : u)
       );

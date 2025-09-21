@@ -3,11 +3,6 @@ import { getAuthPayloadFromCookie } from '@/lib/auth';
 import prisma from '@/lib/prisma';
 import { startOfDay } from 'date-fns';
 
-/**
- * GET /api/admin/stats
- * Fetches key statistics for the admin dashboard.
- * This is a protected route and requires the user to have an 'Admin' role.
- */
 export async function GET() {
     try {
         // 1. Security: Ensure the user is an authenticated Admin

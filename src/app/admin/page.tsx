@@ -9,25 +9,20 @@ import {
 } from "@/components/ui/card";
 import { Users, FileText, Activity } from "lucide-react";
 
-// This function now fetches real, protected data from our API route.
 async function getAdminStats() {
   try {
-    // 1. Construct the full URL for server-side fetching
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
     const url = `${baseUrl}/api/admin/stats`;
 
-    // 2. Forward cookies to the API route for authentication
     const response = await fetch(url, {
       headers: {
         Cookie: cookies().toString(),
       },
-      // Revalidate data every 5 minutes to keep it fresh but not overload the DB
       next: { revalidate: 300 },
     });
 
     if (!response.ok) {
       console.error(`Failed to fetch admin stats: ${response.statusText}`);
-      // Return zeroed stats on failure to prevent the page from crashing
       return { totalUsers: 0, totalPosts: 0, activeToday: 0 };
     }
 
@@ -40,7 +35,6 @@ async function getAdminStats() {
 };
 
 export default async function AdminDashboardPage() {
-  // The component fetches data on the server before rendering
   const stats = await getAdminStats();
 
   return (

@@ -52,7 +52,6 @@ export function useNotifications(): UseNotificationsReturn {
     fetchInitialNotifications();
   }, []);
 
-  // Set up Supabase real-time subscription
   useEffect(() => {
     const channel = supabase
       .channel('realtime-notifications')
@@ -61,21 +60,19 @@ export function useNotifications(): UseNotificationsReturn {
         { event: 'INSERT', schema: 'public', table: 'Notification' },
         (payload) => {
           console.log('New notification received!', payload.new);
-          // Add the new notification to the top of the list
           setNotifications((prev) => [payload.new as Notification, ...prev]);
           setUnreadCount((prev) => prev + 1);
         }
       )
       .subscribe();
 
-    // Cleanup function to remove the channel subscription when the component unmounts
     return () => {
       supabase.removeChannel(channel);
     };
   }, [supabase]);
 
   const markAsRead = async (notificationId: string) => {
-    // Optimistic UI update
+    
     setNotifications(prev =>
       prev.map(n => n.id === notificationId ? { ...n, isRead: true } : n)
     );

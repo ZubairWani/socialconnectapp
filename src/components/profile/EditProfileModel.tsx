@@ -8,13 +8,12 @@ import { toast } from "sonner";
 import { useUser } from "@/hooks/use-user";
 import { updateProfileSchema, UpdateProfileData } from "@/lib/validators";
 
-// UI Components
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "../ui/textarea";
-import { ImageUpload } from "@/components/shared/ImageUpload"; // 1. IMPORT YOUR NEW COMPONENT
+import { ImageUpload } from "@/components/shared/ImageUpload"; 
 
 // Define the shape of the user prop
 type ProfileUser = {
@@ -66,7 +65,7 @@ export function EditProfileModal({ user }: { user: ProfileUser }) {
       window.location.reload()
     } catch (error) {
       toast.error("Failed to save new avatar. Please try again.");
-      // Optionally revert the preview if the save fails
+     
       setAvatarPreview(user.avatarUrl);
     } finally {
       setIsSavingAvatar(false);
@@ -107,11 +106,10 @@ export function EditProfileModal({ user }: { user: ProfileUser }) {
               </DialogDescription>
             </DialogHeader>
 
-            {/* 4. Replace the old avatar logic with the ImageUpload component */}
             <div className="space-y-2">
               <FormLabel>Profile Picture</FormLabel>
               <ImageUpload
-                bucket="posts" // The name of your public Supabase bucket
+                bucket="posts"
                 preview={avatarPreview}
                 setPreview={setAvatarPreview}
                 onUploadComplete={handleUploadComplete}

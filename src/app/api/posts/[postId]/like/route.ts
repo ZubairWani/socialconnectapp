@@ -23,8 +23,6 @@ export async function POST(req: NextRequest, { params }: RouteContext) {
     const { postId } = params;
     const userId = authPayload.userId;
 
-    // Use a transaction to ensure all database operations succeed or fail together.
-    // THE FIX IS HERE: The result is a single object, not an array.
     const like = await prisma.$transaction(async (tx) => {
       // 1. Create the 'Like' record.
       const createdLike = await tx.like.create({
@@ -38,7 +36,7 @@ export async function POST(req: NextRequest, { params }: RouteContext) {
       const post = await tx.post.update({
         where: { id: postId },
         data: { likeCount: { increment: 1 } },
-        select: { authorId: true }, // Select the authorId for the notification.
+        select: { authorId: true },
       });
 
       // 3. Create a notification for the post's author,
@@ -61,7 +59,6 @@ export async function POST(req: NextRequest, { params }: RouteContext) {
     return NextResponse.json(like, { status: 201 });
   } catch (error) {
     console.error('LIKE_POST_ERROR', error);
-    // Handle case where like already exists (unique constraint violation)
     if (error instanceof Error && 'code' in error && error.code === 'P2002') {
       return NextResponse.json({ message: 'Post already liked.' }, { status: 409 });
     }
@@ -83,7 +80,6 @@ export async function DELETE(req: NextRequest, { params }: RouteContext) {
     const { postId } = params;
     const userId = authPayload.userId;
 
-    // This uses the array-based transaction, which is fine.
     await prisma.$transaction([
       prisma.like.delete({
         where: {

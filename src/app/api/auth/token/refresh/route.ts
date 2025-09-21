@@ -21,7 +21,6 @@ export async function POST(request: Request) {
     return NextResponse.json({ message: 'Invalid refresh token.' }, { status: 401 });
   }
   
-  // Optional: Check if the user still exists and is active
   const user = await prisma.user.findUnique({ where: { id: payload.userId } });
   if (!user) {
      return NextResponse.json({ message: 'User not found.' }, { status: 401 });

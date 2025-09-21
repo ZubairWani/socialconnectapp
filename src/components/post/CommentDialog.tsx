@@ -57,7 +57,7 @@ export function CommentDialog({ postId, onCommentCreated, children }: CommentDia
             }
 
             toast.success('Comment posted!');
-            onCommentCreated(); // Trigger the parent's update logic
+            onCommentCreated();
             form.reset();
             setOpen(false);
         } catch (error) {

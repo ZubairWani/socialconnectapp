@@ -11,11 +11,6 @@ interface UseApiReturn<T> {
   exec: (body?: any) => Promise<T | undefined>;
 }
 
-/**
- * A generic custom hook for making API requests.
- * @param endpoint The API endpoint to call (e.g., '/api/posts').
- * @param method The HTTP method to use.
- */
 export function useApi<T>(endpoint: string, method: ApiMethod = 'GET'): UseApiReturn<T> {
   const [data, setData] = useState<T | null>(null);
   const [isLoading, setIsLoading] = useState(false);

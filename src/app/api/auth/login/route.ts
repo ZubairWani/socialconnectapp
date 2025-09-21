@@ -33,10 +33,6 @@ export async function POST(request: Request) {
       return NextResponse.json({ message: 'Invalid credentials.' }, { status: 401 });
     }
 
-    // TODO: Check if email is verified if you have an email verification flow
-    // if (!user.emailVerified) {
-    //   return NextResponse.json({ message: 'Please verify your email before logging in.' }, { status: 403 });
-    // }
 
     // Update last login timestamp
     await prisma.user.update({
@@ -54,7 +50,7 @@ export async function POST(request: Request) {
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'strict',
         path: '/',
-        maxAge: 60 * 60 * 24 * 7, // 15 minutes
+        maxAge: 60 * 60 * 24 * 7, // 7 days
     });
     cookieStore.set('refreshToken', refreshToken, {
         httpOnly: true,

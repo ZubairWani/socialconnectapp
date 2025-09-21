@@ -11,8 +11,6 @@ export async function POST(request: Request) {
 
     const user = await prisma.user.findUnique({ where: { email } });
 
-    // Important: Do not reveal if a user exists or not for security reasons.
-    // Always return a success message.
     if (user) {
       // Generate a secure, random token
       const resetToken = crypto.randomBytes(32).toString('hex');
@@ -28,10 +26,6 @@ export async function POST(request: Request) {
           passwordResetExpires,
         },
       });
-
-      // TODO: Send an email to the user with the reset link.
-      // The link would look like: `https://your-app.com/password-reset-confirm?token=${resetToken}`
-      // You must send the `resetToken` (unhashed) in the email, and store the `passwordResetToken` (hashed) in the DB.
       console.log(`Password reset token for ${email}: ${resetToken}`);
     }
 

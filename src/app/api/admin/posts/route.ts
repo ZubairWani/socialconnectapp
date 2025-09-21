@@ -5,11 +5,6 @@ import { getAuthPayloadFromCookie } from '@/lib/auth';
 import prisma from '@/lib/prisma';
 import { format } from 'date-fns';
 
-/**
- * GET /api/admin/posts
- * Fetches a paginated list of all posts for the admin panel.
- * Protected route: Requires Admin role.
- */
 export async function GET(request: Request) {
     try {
         const authPayload = await getAuthPayloadFromCookie();
@@ -30,7 +25,6 @@ export async function GET(request: Request) {
             },
         });
 
-        // Format the data for the frontend table
         const formattedPosts = posts.map(post => ({
             id: post.id,
             authorName: `${post.author.firstName} ${post.author.lastName}`,

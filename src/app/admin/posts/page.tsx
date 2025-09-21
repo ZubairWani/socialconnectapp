@@ -14,7 +14,6 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { ConfirmationDialog } from "@/components/shared/ConfirmationDialog";
 import { Skeleton } from "@/components/ui/skeleton";
 
-// Define the shape of the post object fetched from our API
 type Post = {
   id: string;
   authorName: string;
@@ -53,7 +52,6 @@ export default function AdminPostsPage() {
       });
       if (!response.ok) throw new Error('Failed to delete the post.');
 
-      // Update the UI optimistically by removing the deleted post
       setPosts(prevPosts => prevPosts.filter(p => p.id !== postId));
       toast.success("Post deleted successfully.");
     } catch (error) {

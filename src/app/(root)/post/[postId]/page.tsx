@@ -185,10 +185,10 @@ function PostActions({ post, onLikeToggle }: PostActionsProps) {
         console.log('Share cancelled or failed');
       }
     } else {
-      // Fallback to clipboard
+ 
       try {
         await navigator.clipboard.writeText(window.location.href);
-        // You could show a toast here
+      
         console.log('Link copied to clipboard');
       } catch (error) {
         console.error('Failed to copy link');
@@ -293,7 +293,7 @@ export default function SinglePostPage() {
         <CommentSection
           postId={postId}
           onCommentAdded={handleCommentAdded}
-          onCommentDeleted={handleCommentDeleted} // Pass the new handler here
+          onCommentDeleted={handleCommentDeleted}
         />
       </main>
     </div>

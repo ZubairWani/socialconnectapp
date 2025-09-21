@@ -1,10 +1,5 @@
 import { Skeleton } from "@/components/ui/skeleton";
 
-/**
- * A skeleton loader component that mimics the layout of a PostCard.
- * It provides a better user experience by showing a placeholder of the
- * content that is about to load.
- */
 export function PostCardSkeleton() {
   return (
     <div className="p-4 flex gap-4 border-b w-full">
