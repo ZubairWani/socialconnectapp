@@ -1,36 +1,94 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SocialConnect – Next.js Social Networking App
 
-## Getting Started
+## 🚀 live URL : https://socialconnectnew.netlify.app/
 
-First, run the development server:
+SocialConnect is a modern **social networking platform** built using **Next.js 13+ App Router**, **React**, and **TailwindCSS**.  
+It allows users to connect, share posts, comment, and engage in real-time with their community.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## 🚀 Features
+
+- 🌐 **Next.js 13+ App Router** for server components and layouts  
+- 🎨 **TailwindCSS** for responsive UI design  
+- 🔔 **Sonner** for toast notifications  
+- 📝 **SEO-ready Metadata** with Open Graph & Twitter card support  
+- 🌙 **Dark/Light Mode** with dynamic theme colors  
+- 📱 **PWA Support** (manifest, Apple web app, icons)  
+- 🔑 **Authentication Ready** (extendable via JWT, NextAuth, etc.)  
+- ⚡ Optimized fonts via `next/font` (Nunito)  
+
+---
+
+## 🛠️ Tech Stack
+
+- **Framework**: [Next.js 13+](https://nextjs.org/)  
+- **Language**: [TypeScript](https://www.typescriptlang.org/)  
+- **Frontend**: [React 18+](https://react.dev/)  
+- **Styling**: [TailwindCSS](https://tailwindcss.com/)  
+- **Notifications**: [Sonner](https://sonner.emilkowal.ski/)  
+- **Fonts**: [next/font](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) (Nunito)  
+
+---
+
+## 📂 Project Structure
+
+```
+src/
+ ├── app/
+ │   ├── layout.tsx      # Root layout with global styles & metadata
+ │   ├── globals.css     # Global CSS (Tailwind included)
+ │   └── page.tsx        # Example landing page
+ ├── components/         # UI components (Feed, PostForm, etc.)
+ ├── hooks/              # Custom React hooks
+ ├── lib/                # Utilities & helpers
+ └── types/              # TypeScript types
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## ⚡ Getting Started
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 1. Clone the repo
+```bash
+git clone https://github.com/your-username/socialconnect.git
+cd socialconnect
+```
 
-## Learn More
+### 2. Install dependencies
+```bash
+npm install
+```
 
-To learn more about Next.js, take a look at the following resources:
+### 3. Run development server
+```bash
+npm run dev
+```
+App will be available at [http://localhost:3000](http://localhost:3000).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🔧 Available Scripts
 
-## Deploy on Vercel
+- `npm run dev` → Start dev server with Turbopack  
+- `npm run build` → Generate production build  
+- `npm start` → Run production server  
+- `npm run lint` → Lint project files  
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🌐 Deployment
+
+You can deploy SocialConnect on:  
+- [Vercel](https://vercel.com/) (recommended)  
+- [Netlify](https://www.netlify.com/)  
+- Any Node.js hosting provider  
+
+---
+
+## 📜 License
+
+This project is licensed under the **MIT License**.  
+Maintained by **Zubair**.  
+
+---
