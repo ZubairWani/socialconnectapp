@@ -41,8 +41,6 @@ export function EditProfileModal({ user }: { user: ProfileUser }) {
     },
   });
 
-  // This handler is called by ImageUpload when the Supabase upload is complete.
-  // Its job is to save the new URL to our own database.
   const handleUploadComplete = async (url: string) => {
     // An empty URL means the user removed the image.
     const newAvatarUrl = url === "" ? null : url;
@@ -58,7 +56,7 @@ export function EditProfileModal({ user }: { user: ProfileUser }) {
       if (!response.ok) throw new Error('Failed to update profile with new avatar.');
 
       toast.success(newAvatarUrl ? "Avatar updated successfully!" : "Avatar removed.");
-      mutate(); // Re-fetch user data across the app to show the new avatar
+      mutate(); 
       window.location.reload()
     } catch (error) {
       toast.error("Failed to save new avatar. Please try again.");

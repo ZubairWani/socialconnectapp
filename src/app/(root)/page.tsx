@@ -1,4 +1,3 @@
-
 "use client";
 
 import { CreatePostForm } from "@/components/post/CreatePostForm";
@@ -29,7 +28,9 @@ export default function FeedPage() {
         </h2>
       </header>
 
-      <CreatePostForm onPostCreated={prependPost} />
+      {!isUserLoading && user && (
+        <CreatePostForm currentUser={user} onPostCreated={prependPost} />
+      )}
 
       <FeedList
         posts={posts}

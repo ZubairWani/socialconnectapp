@@ -7,60 +7,83 @@ import { useState } from "react";
 import { ImageUpload } from "../shared/ImageUpload";
 import { Post } from "@/types";
 
+type CurrentUser = {
+  id: string;
+  username: string;
+  firstName: string;
+  lastName: string;
+  avatarUrl?: string | null;
+};
+
 type Props = {
+  currentUser: CurrentUser; 
   onPostCreated: (newPost: Post) => void;
 };
 
-export function CreatePostForm({ onPostCreated }: Props) {
+const getInitials = (user: CurrentUser): string => {
+  const { firstName, lastName, username } = user;
+  if (firstName && lastName) {
+    return `${firstName[0]}${lastName[0]}`.toUpperCase();
+  }
+  if (firstName) {
+    return firstName.substring(0, 2).toUpperCase();
+  }
+  if (username) {
+    return username.substring(0, 2).toUpperCase();
+  }
+  return "ME";
+};
+
+
+export function CreatePostForm({ currentUser, onPostCreated }: Props) {
     const [content, setContent] = useState('');
     const [imageUrl, setImageUrl] = useState<string | null>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [preview, setPreview] = useState<string | null>(null);
    
-    // This function will be called by the ImageUpload component when an upload is complete
     const handleUploadComplete = (url: string) => {
         setImageUrl(url);
     };
 
- const handleSubmit = async () => {
-  if (!content.trim()) return;
+    const handleSubmit = async () => {
+        if (!content.trim()) return;
 
-  setIsSubmitting(true);
-  const payload = { content, imageUrl };
+        setIsSubmitting(true);
+        const payload = { content, imageUrl };
 
-  try {
-    const response = await fetch('/api/posts', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-    });
+        try {
+            const response = await fetch('/api/posts', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload),
+            });
 
-    if (!response.ok) throw new Error("Failed to create post.");
+            if (!response.ok) throw new Error("Failed to create post.");
 
-    const newPost = await response.json(); 
+            const newPost = await response.json(); 
+            onPostCreated(newPost);
 
-    onPostCreated(newPost);
-
-    // Reset form
-    setContent('');
-    setImageUrl(null);
-    setPreview(null)
-
-  } catch (error) {
-    console.error(error);
-    // TODO: Show error toast
-  } finally {
-    setIsSubmitting(false);
-  }
-};
+            setContent('');
+            setImageUrl(null);
+            setPreview(null);
+        } catch (error) {
+            console.error(error);
+            // TODO: Show error toast
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
 
     return (
         <div className="p-4 border-b">
             <div className="flex gap-4">
                 <Avatar>
-                    <AvatarImage src="https://github.com/shadcn.png" />
-                    <AvatarFallback>ME</AvatarFallback>
+                    {/* Use the logged-in user's avatarUrl */}
+                    <AvatarImage src={currentUser.avatarUrl || ''} />
+                    {/* Fallback to user's initials */}
+                    <AvatarFallback>{getInitials(currentUser)}</AvatarFallback>
                 </Avatar>
+                
                 <div className="w-full space-y-3">
                     <Textarea 
                         placeholder="What's happening?" 
