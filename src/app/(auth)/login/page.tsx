@@ -35,7 +35,7 @@ const formSchema = z.object({
 export default function LoginPage() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false); 
   const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
